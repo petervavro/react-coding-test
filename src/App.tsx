@@ -12,6 +12,8 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import PageHome from './components/PageHome';
 import PageNoPage from './components/PageNoPage';
+import PageInputComponents from './components/PageInputComponents';
+
 
 /* Styles */
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,6 +42,7 @@ function App() {
             <Grid item>
               <Paper className={classes.paper} >
                 <Switch>
+                  <Route path="/peter-vavro/focusable-input" exact component={PageInputComponents} />
                   <Route path="/" exact component={PageHome} />
                   <Route path="*" component={PageNoPage} />
                 </Switch>

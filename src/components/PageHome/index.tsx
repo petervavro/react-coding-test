@@ -1,17 +1,15 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-
+import PageLayout from '../../components/PageLayout';
 import MainMenu from '../../components/MainMenu';
 
 function PageHome() {
 
     return (
-        <div>
-            <Typography variant="h1" gutterBottom>
-                Peter Vavro
-            </Typography>
+        <PageLayout
+            name={'Peter Vavro'}
+        >
             <MainMenu />
-        </div>
+        </PageLayout>
     );
 }
 
