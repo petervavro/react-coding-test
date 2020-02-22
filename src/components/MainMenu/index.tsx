@@ -48,6 +48,7 @@ function MainMenu() {
         <Paper elevation={0} className={classes.root}>
             <List aria-label="main">
                 <ListItemLink to="/peter-vavro/focusable-input" primary="Input Components" />
+                <ListItemLink to="/peter-vavro/voting-list/10" primary="Voting List (with 10 candidates)" />
             </List>
         </Paper>
     );

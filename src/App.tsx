@@ -13,7 +13,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import PageHome from './components/PageHome';
 import PageNoPage from './components/PageNoPage';
 import PageInputComponents from './components/PageInputComponents';
-
+import PageVotingList from './components/PageVotingList';
 
 /* Styles */
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,6 +43,7 @@ function App() {
               <Paper className={classes.paper} >
                 <Switch>
                   <Route path="/peter-vavro/focusable-input" exact component={PageInputComponents} />
+                  <Route path="/peter-vavro/voting-list/:candidates" exact component={PageVotingList} />
                   <Route path="/" exact component={PageHome} />
                   <Route path="*" component={PageNoPage} />
                 </Switch>
