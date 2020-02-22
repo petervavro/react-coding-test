@@ -14,6 +14,8 @@ import PageHome from './components/PageHome';
 import PageNoPage from './components/PageNoPage';
 import PageInputComponents from './components/PageInputComponents';
 import PageVotingList from './components/PageVotingList';
+import PageRegisterForm from './components/PageRegisterForm';
+import PageWelcome from './components/PageWelcome';
 
 /* Styles */
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,6 +46,8 @@ function App() {
                 <Switch>
                   <Route path="/peter-vavro/focusable-input" exact component={PageInputComponents} />
                   <Route path="/peter-vavro/voting-list/:candidates" exact component={PageVotingList} />
+                  <Route path="/peter-vavro/register-form" exact component={PageRegisterForm} />
+                  <Route path="/peter-vavro/welcome" exact component={PageWelcome} />
                   <Route path="/" exact component={PageHome} />
                   <Route path="*" component={PageNoPage} />
                 </Switch>
