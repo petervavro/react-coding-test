@@ -1,0 +1,222 @@
+import React, { useEffect, useState } from 'react';
+import PageLayout from '../../components/PageLayout';
+import ContentFooter from '../../components/ContentFooter';
+import { RouteComponentProps } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import UpIcon from '@material-ui/icons/ExpandLess';
+import DownIcon from '@material-ui/icons/ExpandMore';
+import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+
+const Chance = require('chance');
+var chance = new Chance();
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        highlighted: {
+            color: 'red',
+        },
+    }),
+);
+
+interface CandidateProps {
+    firstname: number;
+    lastname: string;
+    age: number;
+    slogan: string;
+    votes: number;
+    index: number;
+}
+
+/**
+ * Generator of candidates
+ */
+const generateCandidate = () => {
+
+    return {
+        firstname: chance.first(),
+        lastname: chance.last(),
+        age: chance.age({ type: 'adult'}),
+        slogan: chance.sentence({ words: 10 }),
+        votes: chance.integer({ min: 0, max: 10 })
+    }
+
+}
+
+/**
+ * Generate list of candidates
+ * @param amount set amount of candidates
+ */
+function generateListOfCandidates(amount: number): Array<CandidateProps> {
+
+    const candidates = []
+
+    for (let i = 0; i < amount; i+=1) {
+
+        candidates.push({
+            ...generateCandidate(),
+            index: i
+        })
+        
+    }
+
+    return candidates
+
+}
+
+/**
+ * Handler to modify votes
+ * @param candidate
+ * @param valueToAdd
+ */
+const modifyVotes = (
+    candidate: CandidateProps, 
+    valueToAdd: number
+) => {
+
+    // Votes to update
+    const votes = (candidate.votes + valueToAdd)
+
+    // Limit range
+    if (votes >= 0 && votes <= 20) {
+
+        return {
+            ...candidate,
+            votes: (candidate.votes + valueToAdd)
+        }
+
+    }
+
+    return candidate
+
+}
+
+type TParams = {
+    candidates: string
+};
+
+function PageVotingList({ match }: RouteComponentProps<TParams>) {
+
+    const classes = useStyles();
+
+    // State : "candidates"
+    const [candidates, setCandidates] = useState(
+        generateListOfCandidates(
+            parseInt(match.params.candidates, 10)
+        )
+    );
+
+    // State : "lastUpdated"
+    const [lastUpdated, setLastUpdated] = useState();
+
+    useEffect(() => {
+
+        setCandidates(
+            generateListOfCandidates(
+                parseInt(match.params.candidates, 10)
+            )
+        )
+
+    }, [match.params.candidates]);
+
+    // Sort list to for render
+    const sortedCandidates = candidates.sort(function (a, b) {
+
+        var aVotes = a.votes;
+        var bVotes = b.votes;
+
+        var aAge = a.age;
+        var bAge = b.age;
+
+        if (aVotes === bVotes) {
+            return (aAge < bAge) ? -1 : (aAge > bAge) ? 1 : 0;
+        } else {
+            return (aVotes < bVotes) ? -1 : 1;
+        }
+    }).reverse();
+
+    return (
+        <PageLayout
+            name={'Voting List'}
+        >
+            <Box p={2}>
+                <Link
+                    component={RouterLink}
+                    to={`/peter-vavro/voting-list/${chance.integer({ min: 5, max: 16 })}`}
+                    replace
+                >
+                    Recreate the list with a random candidates count
+                </Link>
+            </Box>
+            <Divider />
+            <ul>
+                {sortedCandidates.map(({
+                    firstname,
+                    lastname,
+                    age,
+                    slogan,
+                    votes,
+                    index
+                }, i) => {
+                    return (
+                        <li 
+                            key={`cnd-${i}`}
+                            className={(
+                                (index === lastUpdated) ? classes.highlighted : ''
+                            )} 
+                        >
+                            <IconButton 
+                                onClick={() => {
+
+                                    // Add one vote
+                                    setCandidates([
+                                        ...candidates.slice(0, i),
+                                        modifyVotes(candidates[i], 1),
+                                        ...candidates.slice(i + 1)
+                                    ])
+
+                                    // Set last updated
+                                    setLastUpdated(index)
+
+                                }}
+                                aria-label="up"
+                            >
+                                <UpIcon />
+                            </IconButton>
+                            <IconButton 
+                                onClick={() => {
+
+                                    // Subtract one vote
+                                    setCandidates([
+                                        ...candidates.slice(0, i),
+                                        modifyVotes(candidates[i], -1),
+                                        ...candidates.slice(i + 1)
+                                    ])
+
+                                    // Set last updated
+                                    setLastUpdated(index)
+
+                                }}
+                                aria-label="down"
+                            >
+                                <DownIcon />
+                            </IconButton>
+                            <strong>{`${firstname} ${lastname}`}</strong>
+                            , {age}
+                            , {slogan}
+                            , {votes}
+                        </li>
+                    )
+                })}
+            </ul>
+            <ContentFooter />
+
+        </PageLayout>
+    );
+}
+
+export default PageVotingList;
