@@ -11,12 +11,18 @@ import {
 import { Omit } from '@material-ui/types';
 
 interface ListItemLinkProps {
-    primary: string;
     to: string;
+    primary: string;
+    secondary: string;
 }
 
 function ListItemLink(props: ListItemLinkProps) {
-    const { primary, to } = props;
+
+    const { 
+        to, 
+        primary, 
+        secondary 
+    } = props;
 
     const renderLink = React.useMemo(
         () =>
@@ -27,11 +33,9 @@ function ListItemLink(props: ListItemLinkProps) {
     );
 
     return (
-        <li>
-            <ListItem button component={renderLink}>
-                <ListItemText primary={primary} />
-            </ListItem>
-        </li>
+        <ListItem button component={renderLink}>
+            <ListItemText primary={primary} secondary={secondary} />
+        </ListItem>
     );
 }
 
@@ -46,10 +50,10 @@ function MainMenu() {
 
     return (
         <Paper elevation={0} className={classes.root}>
-            <List aria-label="main">
-                <ListItemLink to="/peter-vavro/focusable-input" primary="Input Components" />
-                <ListItemLink to="/peter-vavro/voting-list/10" primary="Voting List (with 10 candidates)" />
-                <ListItemLink to="/peter-vavro/register-form" primary="Register Form" />
+            <List component="nav" aria-label="main">
+                <ListItemLink to="/peter-vavro/focusable-input" primary="Input Components" secondary={"Task 1"} />
+                <ListItemLink to="/peter-vavro/voting-list/10" primary="Task 2 : Voting List (with 10 candidates)" secondary={"Task 2"}/>
+                <ListItemLink to="/peter-vavro/register-form" primary="Task 3 : Register Form" secondary={"Task 3"}/>
             </List>
         </Paper>
     );

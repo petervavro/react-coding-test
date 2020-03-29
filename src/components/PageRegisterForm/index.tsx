@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import PageLayout from '../../components/PageLayout';
-import ContentFooter from '../../components/ContentFooter';
 
 import { useForm } from "react-hook-form";
 
@@ -163,7 +162,7 @@ function PageRegisterForm() {
 
     return (
         <PageLayout
-            name={'Register Form'}
+            title={'Register Form'}
         >
             {(errorMessage) && (
                 <Alert 
@@ -218,7 +217,6 @@ function PageRegisterForm() {
                     </Grid>
                 </Grid>
             </form>
-            <ContentFooter />
         </PageLayout>
     );
 }

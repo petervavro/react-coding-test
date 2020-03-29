@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
-import ContentFooter from '../../components/ContentFooter';
 import { RouteComponentProps } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import UpIcon from '@material-ui/icons/ExpandLess';
@@ -137,7 +136,7 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
 
     return (
         <PageLayout
-            name={'Voting List'}
+            title={'Voting List'}
         >
             <Box p={2}>
                 <Link
@@ -209,8 +208,6 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
                     )
                 })}
             </ul>
-            <ContentFooter />
-
         </PageLayout>
     );
 }
