@@ -1,4 +1,4 @@
-# React Coding Test
+# React Coding Test (Typescript, React)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -73,14 +73,10 @@ using camel case. The data must be sent as form-urlencoded using the variable na
 username , email and phone_number.
 
 This endpoint has 3 possible responses (randomized).
-* A successful response with a true status should send the user to another page with a
-welcome message.
-* A successful response with a false status should show an error message in the form,
-using the string sent in the ‘error’ property of the response.
-* A failed request should show an error message like “We are having some troubles with
-our service right now, please try again later.”
+* A successful response with a true status should send the user to another page with a welcome message.
+* A successful response with a false status should show an error message in the form, using the string sent in the ‘error’ property of the response.
+* A failed request should show an error message like “We are having some troubles with our service right now, please try again later.”
 Remember to use component composition and best practices.
-
 
 ## Available Scripts
 
