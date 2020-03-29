@@ -15,6 +15,19 @@ import Link from '@material-ui/core/Link';
 const Chance = require('chance');
 var chance = new Chance();
 
+interface CandidateProps {
+    firstname: string;
+    lastname: string;
+    age: number;
+    slogan: string;
+    votes: number;
+    index: number;
+}
+
+type CustomParams = {
+    candidates: string
+}
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         highlighted: {
@@ -22,15 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-
-interface CandidateProps {
-    firstname: number;
-    lastname: string;
-    age: number;
-    slogan: string;
-    votes: number;
-    index: number;
-}
 
 /**
  * Generator of candidates
@@ -51,9 +55,9 @@ const generateCandidate = () => {
  * Generate list of candidates
  * @param amount set amount of candidates
  */
-function generateListOfCandidates(amount: number): Array<CandidateProps> {
+function generateListOfCandidates(amount: number): Array <CandidateProps> {
 
-    const candidates = []
+    let candidates = []
 
     for (let i = 0; i < amount; i+=1) {
 
@@ -95,20 +99,12 @@ const modifyVotes = (
 
 }
 
-type TParams = {
-    candidates: string
-};
-
-function PageVotingList({ match }: RouteComponentProps<TParams>) {
+function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
 
     const classes = useStyles();
 
     // State : "candidates"
-    const [candidates, setCandidates] = useState(
-        generateListOfCandidates(
-            parseInt(match.params.candidates, 10)
-        )
-    );
+    const [candidates, setCandidates] = useState<Array<CandidateProps>>([]);
 
     // State : "lastUpdated"
     const [lastUpdated, setLastUpdated] = useState();
