@@ -1,15 +1,10 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
-import ContentFooter from '../../components/ContentFooter';
 
 function PageWelcome() {
-
     return (
-        <PageLayout
-            name={'Welcome'}
-        >
-            <p>Finally, right?</p>
-            <ContentFooter />
+        <PageLayout title={'Welcome in'}>
+            <p>Lorem ipsum dolor sit amet, consectetur.</p>
         </PageLayout>
     );
 }

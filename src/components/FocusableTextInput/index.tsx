@@ -1,52 +1,61 @@
-import React, { useEffect, useRef, MutableRefObject } from 'react';
-import TextInput from '../../components/TextInput';
+import React, { useEffect, useRef, ElementType } from 'react';
+import Grid from '@material-ui/core/Grid';
+import TextField, { TextFieldProps } from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+const TextInput = React.forwardRef<React.Component, TextFieldProps>(function renderTextInput(props, ref) {
+    return <TextField label="Text Input" variant="outlined" inputRef={ref} />;
+});
 
 type FocusableTextInput = {
-    focused?: boolean
-}
+    defaultFocused?: boolean;
+};
 
 /**
  * Get the previous props
  * https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state
- * @param value 
+ * TS : https://stackoverflow.com/questions/53446020/how-to-compare-oldvalues-and-newvalues-on-react-hooks-useeffect
+ * @param value
  */
-function usePrevious(value: any) {
-
-    const ref = useRef();
-
+const usePrevious = <T extends {}>(value: T): T | undefined => {
+    const ref = useRef<T>();
     useEffect(() => {
         ref.current = value;
     });
-
     return ref.current;
-}
+};
 
-function FocusableTextInput({ focused = false }: FocusableTextInput) {
-
-    const inputEl = useRef() as MutableRefObject<HTMLInputElement>;
+function FocusableTextInput({ defaultFocused = false }: FocusableTextInput) {
+    const inputEl = useRef() as React.MutableRefObject<React.ComponentPropsWithRef<ElementType>>;
 
     // Get previous
-    const prevFocused = usePrevious(focused);
-    
-    useEffect(() => {
+    const prevFocused = usePrevious(defaultFocused);
 
-        // Apply focus
-        if (prevFocused !== true && focused === true) {
-    
-            if (inputEl instanceof Object && inputEl.current !== undefined) {
-
-                inputEl.current.focus();
-    
-            }
-    
+    // Set focus on text input
+    const handleFocus = () => {
+        if (inputEl.current) {
+            inputEl.current.focus();
         }
+    };
 
+    useEffect(() => {
+        // Apply focus
+        if (prevFocused !== true && defaultFocused === true) {
+            if (inputEl instanceof Object && inputEl.current !== undefined) handleFocus();
+        }
     });
 
     return (
-        <TextInput 
-            ref = { inputEl }
-        />
+        <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+                <TextInput ref={inputEl} fullWidth />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <Button variant="contained" color="primary" onClick={handleFocus}>
+                    Set focus on text input
+                </Button>
+            </Grid>
+        </Grid>
     );
 }
 
