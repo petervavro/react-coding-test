@@ -7,6 +7,12 @@ import DownIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { Link as RouterLink } from 'react-router-dom';
@@ -117,47 +123,57 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
 
     return (
         <PageLayout title={'Voting List'}>
-            <ul>
+            <List>
                 {sortedCandidates.map(({ firstname, lastname, age, slogan, votes, index }, i) => {
                     return (
-                        <li key={`cnd-${i}`} className={index === lastUpdated ? classes.highlighted : ''}>
-                            <IconButton
-                                onClick={() => {
-                                    // Add one vote
-                                    setCandidates([
-                                        ...candidates.slice(0, i),
-                                        modifyVotes(candidates[i], 1),
-                                        ...candidates.slice(i + 1),
-                                    ]);
+                        <ListItem key={`${i.toString()}`} className={index === lastUpdated ? classes.highlighted : ''}>
+                            <ListItemAvatar>
+                                <small>{votes}</small>
+                            </ListItemAvatar>
+                            <ListItemText secondary={`${slogan}`}>
+                                <>{`${firstname} ${lastname}, ${age}`}</>
+                            </ListItemText>
+                            <ListItemSecondaryAction>
+                                <IconButton
+                                    size={'small'}
+                                    onClick={() => {
+                                        // Add one vote
+                                        setCandidates([
+                                            ...candidates.slice(0, i),
+                                            modifyVotes(candidates[i], 1),
+                                            ...candidates.slice(i + 1),
+                                        ]);
 
-                                    // Set last updated
-                                    setLastUpdated(index);
-                                }}
-                                aria-label="up"
-                            >
-                                <UpIcon />
-                            </IconButton>
-                            <IconButton
-                                onClick={() => {
-                                    // Subtract one vote
-                                    setCandidates([
-                                        ...candidates.slice(0, i),
-                                        modifyVotes(candidates[i], -1),
-                                        ...candidates.slice(i + 1),
-                                    ]);
+                                        // Set last updated
+                                        setLastUpdated(index);
+                                    }}
+                                    aria-label="up"
+                                >
+                                    <UpIcon />
+                                </IconButton>
+                                <IconButton
+                                    edge="end"
+                                    size={'small'}
+                                    onClick={() => {
+                                        // Subtract one vote
+                                        setCandidates([
+                                            ...candidates.slice(0, i),
+                                            modifyVotes(candidates[i], -1),
+                                            ...candidates.slice(i + 1),
+                                        ]);
 
-                                    // Set last updated
-                                    setLastUpdated(index);
-                                }}
-                                aria-label="down"
-                            >
-                                <DownIcon />
-                            </IconButton>
-                            <strong>{`${firstname} ${lastname}`}</strong>, {age}, {slogan}, {votes}
-                        </li>
+                                        // Set last updated
+                                        setLastUpdated(index);
+                                    }}
+                                    aria-label="down"
+                                >
+                                    <DownIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
                     );
                 })}
-            </ul>
+            </List>
             <Divider />
             <Box p={2}>
                 <Button

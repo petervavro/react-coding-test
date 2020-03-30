@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         paper: {
             padding: theme.spacing(3),
+            width: '100%',
         },
         control: {
             padding: theme.spacing(3),
