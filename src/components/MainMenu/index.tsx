@@ -11,10 +11,10 @@ function MainMenu() {
                 <ListItemText primary="Input Components" secondary={'Task 1'} />
             </ListItem>
             <ListItem button component={RouterLink} to="/peter-vavro/voting-list/10">
-                <ListItemText primary="Task 2 : Voting List (with 10 candidates)" secondary={'Task 2'} />
+                <ListItemText primary="Voting List (with 10 candidates)" secondary={'Task 2'} />
             </ListItem>
             <ListItem button component={RouterLink} to="/peter-vavro/register-form">
-                <ListItemText primary="Task 3 : Register Form" secondary={'Task 3'} />
+                <ListItemText primary="Register Form" secondary={'Task 3'} />
             </ListItem>
         </List>
     );
