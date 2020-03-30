@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
-            marginTop: theme.spacing(3),
+            margin: theme.spacing(3),
         },
         paper: {
             padding: theme.spacing(3),
@@ -41,7 +41,7 @@ function PageLayout(props: PageLayoutProps) {
     const classes = useStyles();
 
     return (
-        <Grid container className={classes.root} spacing={2} justify="center">
+        <Grid container className={classes.root} spacing={2}>
             <Grid item>
                 <Paper className={classes.paper}>
                     {title !== '' && (
