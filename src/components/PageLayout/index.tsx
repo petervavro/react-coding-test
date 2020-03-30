@@ -16,7 +16,7 @@ interface Buttons {
 interface PageLayoutProps {
     title: string;
     buttons: Buttons;
-    children: JSX.Element[] | JSX.Element
+    children: JSX.Element[] | JSX.Element;
 }
 
 /* Styles */
@@ -36,40 +36,26 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function PageLayout(props: PageLayoutProps) {
-
-    const {
-        title,
-        children,
-        buttons,
-    } = props
+    const { title, children, buttons } = props;
 
     const classes = useStyles();
 
     return (
-        <Grid 
-            container 
-            className={classes.root} 
-            spacing={2}
-            justify="center"
-        >
+        <Grid container className={classes.root} spacing={2} justify="center">
             <Grid item>
-                <Paper className={classes.paper} >
-                    {title !== '' && 
+                <Paper className={classes.paper}>
+                    {title !== '' && (
                         <Typography variant="h1" gutterBottom>
                             {title}
                         </Typography>
-                    }
+                    )}
                     <Divider />
-                    <Box p={2}>
-                        {children}
-                    </Box>
+                    <Box p={2}>{children}</Box>
                     <Box>
                         <Box py={2}>
                             <Divider />
                         </Box>
-                        <Box py={2}>
-                            {(buttons.home === true) && <ButtonToHome />}
-                        </Box>
+                        <Box py={2}>{buttons.home === true && <ButtonToHome />}</Box>
                     </Box>
                 </Paper>
             </Grid>
@@ -79,9 +65,9 @@ function PageLayout(props: PageLayoutProps) {
 
 PageLayout.defaultProps = {
     title: '',
-    buttons:{
+    buttons: {
         home: true,
-    }
-}
+    },
+};
 
 export default PageLayout;

@@ -1,6 +1,6 @@
 # React Coding Test (Typescript, React)
 
-## Requirements:
+## General requirements:
 
 * You must submit a GitHub public repository with all the code and its GitHub Pages link with the working app in production. We will take into account the commits and messages.
 * Must develop using TypeScript.

@@ -7,7 +7,7 @@ function PageHome() {
         <PageLayout
             title={'Peter Vavro'}
             buttons={{
-                home: false
+                home: false,
             }}
         >
             <MainMenu />
