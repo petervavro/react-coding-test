@@ -7,10 +7,10 @@ import DownIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
@@ -121,8 +121,21 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
         })
         .reverse();
 
+    // Get total votes amount
+    const totalVotes = candidates
+        .map((c) => c.votes)
+        .reduce((accumulator, currentValue) => {
+            return accumulator + currentValue;
+        }, 0);
+
     return (
         <PageLayout title={'Voting List'}>
+            <Box p={2}>
+                <Typography variant="body1" gutterBottom={false} display="inline">
+                    Total votes : {totalVotes}
+                </Typography>
+            </Box>
+            <Divider />
             <List>
                 {sortedCandidates.map(({ firstname, lastname, age, slogan, votes, index }, i) => {
                     return (
