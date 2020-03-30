@@ -101,7 +101,10 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
     const [lastUpdated, setLastUpdated] = useState();
 
     useEffect(() => {
+        // Set candidates in state
         setCandidates(generateListOfCandidates(parseInt(match.params.candidates, 10)));
+        // Reset last updated item selector
+        setLastUpdated(false);
     }, [match.params.candidates]);
 
     // Sort list to for render
