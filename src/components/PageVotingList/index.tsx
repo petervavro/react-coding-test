@@ -6,10 +6,10 @@ import UpIcon from '@material-ui/icons/ExpandLess';
 import DownIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 
 import Chance from 'chance';
 const chance = new Chance();
@@ -117,16 +117,6 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
 
     return (
         <PageLayout title={'Voting List'}>
-            <Box p={2}>
-                <Link
-                    component={RouterLink}
-                    to={`/peter-vavro/voting-list/${chance.integer({ min: 5, max: 16 })}`}
-                    replace
-                >
-                    Recreate the list with a random candidates count
-                </Link>
-            </Box>
-            <Divider />
             <ul>
                 {sortedCandidates.map(({ firstname, lastname, age, slogan, votes, index }, i) => {
                     return (
@@ -168,6 +158,18 @@ function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
                     );
                 })}
             </ul>
+            <Divider />
+            <Box p={2}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    component={RouterLink}
+                    to={`/peter-vavro/voting-list/${chance.integer({ min: 5, max: 16 })}`}
+                    replace
+                >
+                    Recreate the list with a random candidates amount
+                </Button>
+            </Box>
         </PageLayout>
     );
 }
