@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, ElementType } from 'react';
-// import TextInput from '../../components/TextInput';
+import Grid from '@material-ui/core/Grid';
 import TextField, { TextFieldProps } from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const TextInput = React.forwardRef<React.Component, TextFieldProps>(function renderTextInput(props, ref) {
     return <TextField label="Text Input" variant="outlined" inputRef={ref} />;
 });
 
 type FocusableTextInput = {
-    focused?: boolean;
+    defaultFocused?: boolean;
 };
 
 /**
@@ -24,12 +25,13 @@ const usePrevious = <T extends {}>(value: T): T | undefined => {
     return ref.current;
 };
 
-function FocusableTextInput({ focused = false }: FocusableTextInput) {
+function FocusableTextInput({ defaultFocused = false }: FocusableTextInput) {
     const inputEl = useRef() as React.MutableRefObject<React.ComponentPropsWithRef<ElementType>>;
 
     // Get previous
-    const prevFocused = usePrevious(focused);
+    const prevFocused = usePrevious(defaultFocused);
 
+    // Set focus on text input
     const handleFocus = () => {
         if (inputEl.current) {
             inputEl.current.focus();
@@ -38,12 +40,23 @@ function FocusableTextInput({ focused = false }: FocusableTextInput) {
 
     useEffect(() => {
         // Apply focus
-        if (prevFocused !== true && focused === true) {
+        if (prevFocused !== true && defaultFocused === true) {
             if (inputEl instanceof Object && inputEl.current !== undefined) handleFocus();
         }
     });
 
-    return <TextInput ref={inputEl} />;
+    return (
+        <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+                <TextInput ref={inputEl} fullWidth />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <Button variant="contained" color="primary" onClick={handleFocus}>
+                    Set focus on text input
+                </Button>
+            </Grid>
+        </Grid>
+    );
 }
 
 export default FocusableTextInput;

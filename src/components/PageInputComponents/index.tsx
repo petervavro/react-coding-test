@@ -10,7 +10,7 @@ function InputComponents() {
                 home: true,
             }}
         >
-            <FocusableTextInput focused={true} />
+            <FocusableTextInput defaultFocused={true} />
         </PageLayout>
     );
 }
