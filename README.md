@@ -1,4 +1,6 @@
-# React Coding Test (Typescript, React)
+# Code Challenge - React (Typescript, React)
+
+*All the solutions presented here are developed by me in order to present my skills.*
 
 ## General requirements:
 
@@ -9,7 +11,8 @@
 * The root path must show your name and a link to each part.
 * If the user inputs a non existing path the app should show a 404 page.
 * The UX and UI design of the app will be taken into account.
-* Use best practices and comment on what you see necessary. Use the README file to write any extra information about your submission.
+* Use best practices and comment on what you see necessary. 
+* Use the README file to write any extra information about your submission.
 
 ## Tasks: 
 
@@ -50,7 +53,7 @@ It must start with a number between 300 and 320 (included). The field should onl
 #### UI Requirements
 * Each field should let the user know its error state, with a specific message for each condition. The message should be something like “The username must be at least 4 characters long”, not something generic like “This field has an error”. This state must be visible only if the field has been touched, but not while the user is typing for the first time, and must disappear if the condition is cleared.
 
-* The form should only be submitted if all fields are valid and should let the user know that it is being sent. The form data must be sent to the server http://sgaviria.com in the route /api/1/front-dev/ (mandatory trailing slash) using the post method. The request must contain a header with the name “Tranqui-FrontendDeveloper” and the value should be your full name using camel case. The data must be sent as form-urlencoded using the variable names username, email and phone_number.
+* The form should only be submitted if all fields are valid. The form data must be sent to the server http://localhost in the route /api using the post method. The request must contain a header with the name “Developer” and the value should be your full name using camel case. The data must be sent as form-urlencoded using the variable names username, email and phone_number.
 
 This endpoint has 3 possible responses (randomized).
 * A successful response with a true status should send the user to another page with a welcome message.
@@ -59,11 +62,13 @@ This endpoint has 3 possible responses (randomized).
 
 Remember to use component composition and best practices.
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 ## Available Scripts
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). In the project directory, you can run:
+In the project directory, you can run:
 
-### `yarn start`
+### `npm start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -71,12 +76,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn test`
+### `npm test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -86,11 +91,18 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Useful links
+### `npm run eject`
 
-* You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-* To learn React, check out the [React documentation](https://reactjs.org/).
-* To learn Typescript, check out the [Typescript documentation](https://www.typescriptlang.org/).
-* To learn MATERIAL-UI, check out the [MATERIAL-UI](https://material-ui.com/).
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).

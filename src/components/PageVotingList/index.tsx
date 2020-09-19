@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import PageLayout from '../../components/PageLayout';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import PageLayout from '../PageLayout';
+import { Link as RouterLink, RouteComponentProps } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import UpIcon from '@material-ui/icons/ExpandLess';
 import DownIcon from '@material-ui/icons/ExpandMore';
@@ -15,8 +15,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
-import { Link as RouterLink } from 'react-router-dom';
-
 import Chance from 'chance';
 const chance = new Chance();
 
@@ -26,10 +24,10 @@ interface CandidateProps {
     age: number;
     slogan: string;
     votes: number;
-    index: number;
+    id: number;
 }
 
-type CustomParams = {
+type CustomRouteParams = {
     candidates: string;
 };
 
@@ -43,9 +41,11 @@ const useStyles = makeStyles(() =>
 
 /**
  * Generator of candidates
+ * @returns {CandidateProps}
  */
-const generateCandidate = () => {
+const generateCandidate = () : CandidateProps => {
     return {
+        id: chance.integer(),
         firstname: chance.first(),
         lastname: chance.last(),
         age: chance.age({ type: 'adult' }),
@@ -56,7 +56,8 @@ const generateCandidate = () => {
 
 /**
  * Generate list of candidates
- * @param amount set amount of candidates
+ * @param {number} amount set amount of candidates
+ * @returns {CandidateProps[]}
  */
 function generateListOfCandidates(amount: number): Array<CandidateProps> {
     const candidates = [];
@@ -64,7 +65,6 @@ function generateListOfCandidates(amount: number): Array<CandidateProps> {
     for (let i = 0; i < amount; i += 1) {
         candidates.push({
             ...generateCandidate(),
-            index: i,
         });
     }
 
@@ -73,8 +73,9 @@ function generateListOfCandidates(amount: number): Array<CandidateProps> {
 
 /**
  * Handler to modify votes
- * @param candidate
- * @param valueToAdd
+ * @param {CandidateProps} candidate
+ * @param {number} valueToAdd
+ * @returns {CandidateProps}
  */
 const modifyVotes = (candidate: CandidateProps, valueToAdd: number) => {
     // Votes to update
@@ -91,104 +92,133 @@ const modifyVotes = (candidate: CandidateProps, valueToAdd: number) => {
     return candidate;
 };
 
-function PageVotingList({ match }: RouteComponentProps<CustomParams>) {
+function PageVotingList({ match } : RouteComponentProps<CustomRouteParams>) {
     const classes = useStyles();
 
     // State : "candidates"
     const [candidates, setCandidates] = useState<Array<CandidateProps>>([]);
 
     // State : "lastUpdated"
-    const [lastUpdated, setLastUpdated] = useState();
+    const [lastUpdated, setLastUpdated] = useState<number>(0);
 
     useEffect(() => {
+
         // Set candidates in state
-        setCandidates(generateListOfCandidates(parseInt(match.params.candidates, 10)));
+        setCandidates(
+            generateListOfCandidates(
+                parseInt(match.params.candidates, 10)
+            )
+        );
+
         // Reset last updated item selector
-        setLastUpdated(false);
+        setLastUpdated(0);
     }, [match.params.candidates]);
 
-    // Sort list to for render
-    const sortedCandidates = candidates
-        .sort(function (a, b) {
-            const aVotes = a.votes;
-            const bVotes = b.votes;
+    /**
+     * Handle adding/removing votes
+     * @param {number} index
+     * @param {number} step
+     * @returns {Function}
+     */
+    const handleMove = useCallback(
+        (index: number, step : number = 1 ) => {
+            return () => {
 
-            const aAge = a.age;
-            const bAge = b.age;
-
-            if (aVotes === bVotes) {
-                return aAge < bAge ? -1 : aAge > bAge ? 1 : 0;
-            } else {
-                return aVotes < bVotes ? -1 : 1;
+                setCandidates([
+                    ...candidates.slice(0, index),
+                    modifyVotes(candidates[index], step),
+                    ...candidates.slice(index + 1),
+                ]);
+    
+                // Set last updated
+                setLastUpdated(candidates[index].id);
             }
-        })
-        .reverse();
+        },
+        [candidates],
+    );
 
-    // Get total votes amount
-    const totalVotes = candidates
-        .map((c) => c.votes)
-        .reduce((accumulator, currentValue) => {
-            return accumulator + currentValue;
-        }, 0);
+    /**
+     * Sort list to for render
+     */
+    const sortedCandidates = useMemo(
+        () => candidates
+        .sort(
+            (a, b) => {
+                const aVotes = a.votes;
+                const bVotes = b.votes;
+
+                const aAge = a.age;
+                const bAge = b.age;
+
+                if (aVotes === bVotes) {
+                    return (aAge < bAge ? -1 : ( aAge > bAge ? 1 : 0 ));
+                } else {
+                    return (aVotes < bVotes ? -1 : 1);
+                }
+            }
+        ).reverse(), 
+        [candidates]
+    );
+
+    /**
+     * Get total votes amount
+     */
+    const totalVotes = useMemo(
+        () => candidates
+        .reduce(
+            (accumulator, currentValue) => (accumulator + currentValue.votes), 
+            0
+        ),
+        [candidates]
+    );
 
     return (
         <PageLayout title={'Voting List'}>
             <Box p={2}>
                 <Typography variant="body1" gutterBottom={false} display="inline">
-                    Total votes : {totalVotes}
+                    Total votes : <span className={classes.highlighted}>{totalVotes}</span>
                 </Typography>
             </Box>
             <Divider />
             <List>
-                {sortedCandidates.map(({ firstname, lastname, age, slogan, votes, index }, i) => {
-                    return (
-                        <ListItem key={`${i.toString()}`} className={index === lastUpdated ? classes.highlighted : ''}>
-                            <ListItemAvatar>
-                                <small>{votes}</small>
-                            </ListItemAvatar>
-                            <ListItemText secondary={`${slogan}`}>
-                                <>{`${firstname} ${lastname}, ${age}`}</>
-                            </ListItemText>
-                            <ListItemSecondaryAction>
-                                <IconButton
-                                    size={'small'}
-                                    onClick={() => {
-                                        // Add one vote
-                                        setCandidates([
-                                            ...candidates.slice(0, i),
-                                            modifyVotes(candidates[i], 1),
-                                            ...candidates.slice(i + 1),
-                                        ]);
-
-                                        // Set last updated
-                                        setLastUpdated(index);
-                                    }}
-                                    aria-label="up"
-                                >
-                                    <UpIcon />
-                                </IconButton>
-                                <IconButton
-                                    edge="end"
-                                    size={'small'}
-                                    onClick={() => {
-                                        // Subtract one vote
-                                        setCandidates([
-                                            ...candidates.slice(0, i),
-                                            modifyVotes(candidates[i], -1),
-                                            ...candidates.slice(i + 1),
-                                        ]);
-
-                                        // Set last updated
-                                        setLastUpdated(index);
-                                    }}
-                                    aria-label="down"
-                                >
-                                    <DownIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    );
-                })}
+                {sortedCandidates.map(
+                    ({ 
+                        firstname, 
+                        lastname, 
+                        age, 
+                        slogan, 
+                        votes, 
+                        id 
+                    }, i) => {
+                        return (
+                            <ListItem key={id} className={id === lastUpdated ? classes.highlighted : ''}>
+                                <ListItemAvatar>
+                                    <small>{votes}</small>
+                                </ListItemAvatar>
+                                <ListItemText secondary={slogan}>
+                                    <>{`${firstname} ${lastname}, ${age}`}</>
+                                </ListItemText>
+                                <ListItemSecondaryAction>
+                                    <IconButton
+                                        size={'small'}
+                                        onClick={handleMove(i, 1)}
+                                        aria-label="up"
+                                    >
+                                        <UpIcon />
+                                    </IconButton>
+                                    <IconButton
+                                        edge="end"
+                                        size={'small'}
+                                        onClick={handleMove(i, -1)}
+                                        aria-label="down"
+                                    >
+                                        <DownIcon />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        )
+                    }
+                )}
             </List>
             <Divider />
             <Box p={2}>

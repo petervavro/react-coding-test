@@ -1,15 +1,10 @@
 import React from 'react';
-import PageLayout from '../../components/PageLayout';
-import MainMenu from '../../components/MainMenu';
+import PageLayout from '../PageLayout';
+import MainMenu from '../MainMenu';
 
 function PageHome() {
     return (
-        <PageLayout
-            title={'Peter Vavro'}
-            buttons={{
-                home: false,
-            }}
-        >
+        <PageLayout title={'Peter Vavro'} buttons={null}>
             <MainMenu />
         </PageLayout>
     );

@@ -1,16 +1,11 @@
 import React from 'react';
-import FocusableTextInput from '../../components/FocusableTextInput';
-import PageLayout from '../../components/PageLayout';
+import FocusableTextInput from '../FocusableTextInput';
+import PageLayout from '../PageLayout';
 
 function InputComponents() {
     return (
-        <PageLayout
-            title={'Input components'}
-            buttons={{
-                home: true,
-            }}
-        >
-            <FocusableTextInput defaultFocused={true} />
+        <PageLayout title={'Input components'} >
+            <FocusableTextInput focused={true} />
         </PageLayout>
     );
 }
