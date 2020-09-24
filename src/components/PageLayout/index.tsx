@@ -40,7 +40,7 @@ function PageLayout({
         <Container maxWidth="md">
             <Paper className={classes.paper}>
                 {title && (
-                    <Typography variant="h1" gutterBottom>
+                    <Typography variant="h1" gutterBottom data-testid="pageTitle" >
                         {title}
                     </Typography>
                 )}
