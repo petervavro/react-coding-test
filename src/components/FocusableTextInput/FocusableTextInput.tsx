@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from "prop-types";
-import TextInput, { Ref } from '../TextInput';
+import TextInput from 'components/TextInput';
+import { Ref } from 'components/TextInput/TextInput';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import FocusableTextInput from '../FocusableTextInput';
-import PageLayout from '../PageLayout';
+import FocusableTextInput from 'components/FocusableTextInput';
+import PageLayout from 'components/PageLayout';
 
 function PageInputComponents() {
     return (
