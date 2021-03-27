@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-type Props = {}
+type Props = Record<string, unknown>
 
 export type Ref = HTMLInputElement
 
