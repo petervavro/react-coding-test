@@ -122,29 +122,6 @@ function PageVotingList({ match } : RouteComponentProps<CustomRouteParams>) {
     );
 
     /**
-     * Sort list to for render
-     */
-    const sortedCandidates = useMemo(
-        () => candidates
-            .sort(
-                (a, b) => {
-                    const aVotes = a.votes;
-                    const bVotes = b.votes;
-
-                    const aAge = a.age;
-                    const bAge = b.age;
-
-                    if (aVotes === bVotes) {
-                        return (aAge < bAge ? -1 : ( aAge > bAge ? 1 : 0 ));
-                    } else {
-                        return (aVotes < bVotes ? -1 : 1);
-                    }
-                }
-            ).reverse(), 
-        [candidates]
-    );
-
-    /**
      * Get total votes amount
      */
     const totalVotes = useMemo(
@@ -160,13 +137,13 @@ function PageVotingList({ match } : RouteComponentProps<CustomRouteParams>) {
         <PageLayout title={'Voting List'} data-testid="listItem">
             <Box p={2}>
                 <Typography variant="body1" gutterBottom={false} display="inline">
-                    Total votes : <span className={classes.highlighted}>{totalVotes}</span>
+                    Total votes: <span className={classes.highlighted} data-testid="totalVotes">{totalVotes}</span>
                 </Typography>
             </Box>
             <Divider />
             <ListCandidates 
-                candidates={sortedCandidates}
-                handleVoting={handleVoting} 
+                items={candidates}
+                onChangeVotes={handleVoting} 
                 selectedId={lastUpdated}
             />
             <Divider />

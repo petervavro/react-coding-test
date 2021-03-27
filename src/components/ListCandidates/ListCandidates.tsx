@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import UpIcon from '@material-ui/icons/ExpandLess';
@@ -21,22 +21,45 @@ const useStyles = makeStyles((theme) =>
 );
 
 export interface ListCandidatesProps {
-    candidates: CandidateProps[],
-    handleVoting: HandleVotingFunc,
+    items: CandidateProps[],
+    onChangeVotes: HandleVotingFunc,
     selectedId: string,
 }
 
 const ListCandidates = ({ 
-    candidates, 
-    handleVoting,
+    items, 
+    onChangeVotes,
     selectedId,
 } : ListCandidatesProps) => {
 
     const classes = useStyles();
 
+    /**
+     * Sort list to for render
+     */
+    const sortedCandidates = useMemo(
+    () => items
+        .sort(
+            (a, b) => {
+                const aVotes = a.votes;
+                const bVotes = b.votes;
+
+                const aAge = a.age;
+                const bAge = b.age;
+
+                if (aVotes === bVotes) {
+                    return (aAge < bAge ? -1 : ( aAge > bAge ? 1 : 0 ));
+                } else {
+                    return (aVotes < bVotes ? -1 : 1);
+                }
+            }
+        ).reverse(), 
+    [items]
+);
+
     return (
-        <List>
-            {candidates.map(
+        <List data-testid="list">
+            {sortedCandidates.map(
                 ({
                     firstname, 
                     lastname, 
@@ -47,16 +70,17 @@ const ListCandidates = ({
                 }) => (
                     <ListItem key={id} className={id === selectedId ? classes.highlighted : ''}  data-testid="listItem">
                         <ListItemAvatar>
-                            <small>{votes}</small>
+                            <small aria-label="votes">{votes}</small>
                         </ListItemAvatar>
                         <ListItemText secondary={slogan}>
-                            <>{`${firstname} ${lastname}, ${age}`}</>
+                            <>{`${firstname} ${lastname}, `}</>
+                            <span aria-label="age">{age}</span>
                         </ListItemText>
                         <ListItemSecondaryAction>
                             <>
                             <IconButton
                                 size={'small'}
-                                onClick={handleVoting(id, 1)}
+                                onClick={onChangeVotes(id, 1)}
                                 aria-label="up"
                             >
                                 <UpIcon />
@@ -64,7 +88,7 @@ const ListCandidates = ({
                             <IconButton
                                 edge="end"
                                 size={'small'}
-                                onClick={handleVoting(id, -1)}
+                                onClick={onChangeVotes(id, -1)}
                                 aria-label="down"
                             >
                                 <DownIcon />
@@ -79,8 +103,8 @@ const ListCandidates = ({
 };
 
 ListCandidates.propTypes = {
-    candidates: PropTypes.array,
-    handleVoting: PropTypes.func,
+    items: PropTypes.array,
+    onChangeVotes: PropTypes.func,
     selectedId: PropTypes.string
 };
 
