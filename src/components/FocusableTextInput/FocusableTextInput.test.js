@@ -7,6 +7,7 @@ import FocusableTextInput from "./index";
 describe('text input focus', () => {
 
   let container = null;
+
   beforeEach(() => {
     // setup a DOM element as a render target
     container = document.createElement("div");
@@ -28,14 +29,14 @@ describe('text input focus', () => {
       );
     });
   
-    const input = container.querySelector("[data-testid='textInput']")
+    const input = container.querySelector("[data-testid='textInput']");
     expect(input).toBe(document.activeElement);
   
   });
   
   it('should be focused on mount (with React Testing Library)', () => {
     
-    const { getByTestId } = render(<FocusableTextInput focused={true} />)
+    const { getByTestId } = render(<FocusableTextInput focused={true} />);
     
     const input = getByTestId('textInput');
   
@@ -51,7 +52,7 @@ describe('text input focus', () => {
       );
     });
   
-    const input = container.querySelector("[data-testid='textInput']")
+    const input = container.querySelector("[data-testid='textInput']");
     expect(input).not.toBe(document.activeElement);
   
     const button = document.querySelector("[data-testid='button']");
@@ -66,7 +67,7 @@ describe('text input focus', () => {
   
   it('should be focused after user click on button (with React Testing Library)', () => {
     
-    const { getByText, getByTestId } = render(<FocusableTextInput />)
+    const { getByText, getByTestId } = render(<FocusableTextInput />);
     
     const input = getByTestId('textInput');
     const button = getByText("Set focus");

@@ -59,10 +59,10 @@ describe('list', () => {
 
     await waitFor(() => expect(
       getAllByRole('listitem')
-    ).not.toEqual(prevItems))
+    ).not.toEqual(prevItems));
 
-  })
-})
+  });
+});
 
 describe('list item votes', () => {
 
@@ -95,7 +95,7 @@ describe('list item votes', () => {
 
     const btn = getByRole('button', {
       name: /up/i,
-    })
+    });
 
     while (prevItemVotes < 20) {
       fireEvent.click(btn);
@@ -135,7 +135,7 @@ describe('list item votes', () => {
     } while (
       prevItemVotes === 0 
       && positionToTest < (items.length - 1)
-    )
+    );
 
     expect(
       prevItemVotes
@@ -164,9 +164,9 @@ describe('list item votes', () => {
       Number(item.getByTestId("votes").textContent)
     ).toEqual(0);
 
-  })
+  });
 
-})
+});
 
 describe('total votes', () => {
 
@@ -187,6 +187,6 @@ describe('total votes', () => {
       getByTestId('totalVotes').textContent
     ).toBe(`${sum}`);
   
-  })
+  });
 
-})
+});
