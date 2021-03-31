@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from '@testing-library/react'
+import { render } from '@testing-library/react';
 import ListCandidates from "./index";
 
 const LIST = [
@@ -135,7 +135,7 @@ const LIST = [
 
 describe('list order', () => {
   
-  it.only('should show the list sorted by votes first and then by age, descending', () => {
+  it('should show the list sorted by votes first and then by age, descending', () => {
 
     const handleChangeVotes = jest.fn();
 
@@ -144,7 +144,7 @@ describe('list order', () => {
         items={LIST} 
         onChangeVotes={handleChangeVotes} 
       />
-    )
+    );
 
     // Get all votes
     const votesValues = getAllByLabelText('votes').map(item => Number(item.textContent));
@@ -166,7 +166,7 @@ describe('list order', () => {
         )
       });
 
-      expect(isSorted).toBeTruthy()
+      expect(isSorted).toBeTruthy();
 
   })
 
