@@ -12,7 +12,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 type PageLayoutProps = {
     title: string;
     buttons: React.ReactNode;
-    children: React.ReactChild[] | React.ReactChild;
+    children: React.ReactNode;
 };
 
 /* Styles */

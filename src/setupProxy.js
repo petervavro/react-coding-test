@@ -2,26 +2,21 @@ module.exports = function(app) {
 
   app.post('/api', (req, res) => {
 
-    // Generate error response randomly
-    if (Math.random() >= 0.5) {
+    const responses = [
+      { status: 200, response: { status:true }},
+      { status: 409, response: { status:false, message:"Phone number already in use." }},
+      { status: 409, response: { status:false, message:"IP address not allowed." }},
+      { status: 409, response: { status:false, message:"Email address already registered." }},
+      { status: 409, response: { status:false, message:"Username already exists." }},
+      { status: 403, response: []},
+    ];
 
-      const responses = [
-        {"status":true},
-        {"status":false,"error":"Phone number already in use."},
-        {"status":false,"error":"IP address not allowed."},
-        {"status":false,"error":"Email address already registered."},
-        {"status":false,"error":"Username already exists."}
-      ]
+    const { status, response } = responses[
+      Math.floor(Math.random() * responses.length) // Get random index number
+    ];
 
-      // Get random index number
-      const index = Math.floor(Math.random() * responses.length)
-  
-      return res.jsonp(responses[index])
+    return res.status(status).jsonp(response);
 
-    }
-
-    return res.status(403).jsonp({})
-
-  })
+  });
 
 };

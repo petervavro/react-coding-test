@@ -57,7 +57,7 @@ It must start with a number between 300 and 320 (included). The field should onl
 
 This endpoint has 3 possible responses (randomized).
 * A successful response with a true status should send the user to another page with a welcome message.
-* A successful response with a false status should show an error message in the form, using the string sent in the ‘error’ property of the response.
+* A successful response with a false status should show an error message in the form, using the string sent in the ‘message’ property of the response.
 * A failed request should show an error message like “We are having some troubles with our service right now, please try again later.”
 
 Remember to use component composition and best practices.
